@@ -24,14 +24,14 @@ while ($z->name === 'node') {
 	/* #1: Create the document structure */
 	$q = array();
 	/* Add type, _id and loc elements here */
-	$q['type'] = 1;
-	$q['_id'] = "n" . (string) $node['id'];
-	$q['loc'] = array( (float) $node['lon'], (float) $node['lat'] );
+
+
+
 	/* Check the parseNode implementation */
 	parseNode($q, $node);
 
 	/* #2: Write the insert command here */
-	$collection->insert( $q );
+	
 
 	$z->next('node');
 	$count++;
@@ -59,14 +59,14 @@ while ($z->name === 'way') {
 	/* #3: Create the document structure */
 	$q = array();
 	/* Add type and _id elements here */
-	$q['_id'] = "w" . (string) $way['id'];
-	$q['type'] = 2;
+
+
 	/* Check the fetchLocations() and parseNode() implementations */
 	fetchLocations($collection, $q, $way);
 	parseNode($q, $way);
 
 	/* #4: Write the insert command here */
-	$collection->insert( $q );
+
 
 	$z->next('way');
 	if (++$count % 100 === 0) {
