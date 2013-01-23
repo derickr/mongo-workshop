@@ -4,22 +4,17 @@ $m = new MongoClient( 'mongodb://localhost' );
 $d = $m->selectDb( 'demo' );
 
 $wantedD = isset($_GET['d']) ? $_GET['d']: 1;
-$query = array(
-	'$and' => array(
-		array( 'tags' => array( '$not' => array( '$size' => 0 ) ) ),
-		array( 'tags' => array( '$not' => new MongoRegex("/^landuse=/" ) ) ),
-	)
-);
-$query = array(
-	'tags' => array(
-		'$in' => array(
-			new MongoRegex( "/^amenity=/" ),
-			new MongoRegex( "/^shop=/" ),
-			new MongoRegex( "/^tourism=/" ),
-		)
-	)
-);
 
+$query = array();
+/* #1a: Write a query that only shows pubs */
+
+/* #1b: Write a query that only shows roads */
+
+/* #1c: Write a query that only allows amenity, shop and tourism nodes and ways */
+
+/* End */
+
+/* This runs the geo search */
 $s = $d->command(
 	array(
 		'geoNear' => 'poi',

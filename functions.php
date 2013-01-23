@@ -37,7 +37,12 @@ class Triangle
 
 		/* Find object */
 		$object = isset( $_POST['object'] ) ? $_POST['object'] : $_GET['object'];
-		$this->o = $this->c->findOne( array( '_id' => preg_replace( '/[^nw0-9]/', '', $object ) ) );
+
+		/* #2: Write the query that find that object with the object ID in $object, and assign it's result to $this->o */
+		$this->o = array( '_id' => '', 'tags' => array() );
+		/* $this->o = ... */
+
+		/* Split the tags on their = */
 		$this->tags = Functions::split_tags( $this->o['tags'] );
 	}
 
@@ -60,6 +65,10 @@ class Triangle
 
 	function getLocation()
 	{
+		if ( !isset( $this->o['type'] ) )
+		{
+			return '';
+		}
 		if ( $this->o['type'] == 2 )
 		{
 			$loc = $this->o['loc'][0];
@@ -200,32 +209,12 @@ class Triangle
 		unset( $values['object'] );
 		unset( $values['checkin'] );
 
+		/* #3: Write the code that stores the changed fields */
 		foreach( $values as $key => $value )
 		{
-			@$values[$key] = (string) $value;
-
-			if ( $values[$key] === '?' || $values[$key] === '' || $values[$key] === 'Array' )
-			{
-				continue;
-			}
-
-			if ( array_key_exists( $key, $this->tags ) )
-			{
-				if ( $values[$key] != $this->tags[$key] )
-				{
-					$updates["possible.$key"] = array( $values[$key], 0 );
-				}
-			}
-			else
-			{
-				$updates["possible.$key"] = array( $values[$key], 0 );
-			}
+			/* #3a: Record changes */
 		}
-		ini_set( 'xdebug.var_display_max_depth', 5 );
-
-		$update = array( '$addToSet' => $updates );
-
-		$this->d->poi->update( array( '_id' => $this->o['_id'] ), $update );
+		/* #3b: Store the changes */
 	}
 }
 ?>
