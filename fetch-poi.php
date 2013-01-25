@@ -29,6 +29,7 @@ $s = $d->command(
 	)
 );
 
+$rets = array();
 foreach( $s['results'] as $res)
 {
 	$o = $res['obj'];
